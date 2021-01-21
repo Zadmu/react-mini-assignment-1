@@ -1,8 +1,10 @@
 import React from 'react';
 import SearchBar from './SearchBar';
+import TeamDisplay from './TeamDisplay';
 
 class App extends React.Component{
-    state = {teamConference: '', teamName: '', rank: null, teamRecord: '', teamLogo: ''};
+
+    state = {term:'', teamConference: '', teamName: '', rank: null, teamRecord: '', teamLogo: ''};
 
     nba = [
         {teamConference: 'Western', teamName: 'Lakers', teamRank: 1, teamRecord: '11-4', teamLogo: 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/lal.png'},
@@ -23,10 +25,14 @@ class App extends React.Component{
         {teamConference: 'Eastern', teamName: 'Hawks', teamRank: 8, teamRecord: '6-7', teamLogo: 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/atl.png'}
     ]
 
+    // componentDidMount() {
+    //     this.onSearchSubmit('');
+    // }
+
     onSearchSubmit = (term) => {
         console.log('this is the term entered: ' + term);
         
-        const termCapitalized = term.charAt(0).toUpperCase() + term.slice(1) //this works for all except the Trail Blazers
+    const termCapitalized = term.charAt(0).toUpperCase() + term.slice(1) //this works for all except the Trail Blazers
 
         for(var i = 0; i < 16; i++) {
             if(this.nba[i].teamName === termCapitalized) {
@@ -57,20 +63,15 @@ class App extends React.Component{
         <div className = "page">
             <div className = "ui container" style = {{marginTop: '10px'}}>
                 <SearchBar onSubmit = {this.onSearchSubmit}/>
+                <TeamDisplay
+                    teamName = {this.state.teamName}
+                    teamLogo = {this.state.teamLogo}
+                    teamConference = {this.state.teamConference}
+                    teamRank = {this.state.teamRank}
+                    teamRecord = {this.state.teamRecord}
+                />
             </div>
-            <div class = "ui card" style = {{marginLeft: '150px'}}>
-                    <div class="image">
-                        <img src = {this.state.teamLogo}/>
-                    </div>
-                    <div class="content">
-                            <h1 style ={{fontSize: '250%', color: 'black',fontFamily: 'monospace'}}>{this.state.teamName}</h1>      
-                    </div>
-                    <div class="extra content" style ={{backgroundColor:'lightblue'}}>
-                            <h2 style ={{fontSize: '150%', color: 'black',fontFamily: 'monospace'}}>Conference:{this.state.teamConference}</h2>
-                            <h2 style ={{fontSize: '150%', color: 'black',fontFamily: 'monospace'}}>Record:{this.state.teamRecord}</h2>
-                            <h2 style ={{fontSize: '150%', color: 'black',fontFamily: 'monospace'}}>Rank:{this.state.teamRank}</h2>
-                    </div>
-            </div>
+            
         </div>
         )
     }
