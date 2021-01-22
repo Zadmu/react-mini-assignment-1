@@ -4,7 +4,7 @@ import TeamDisplay from './TeamDisplay';
 
 class App extends React.Component{
 
-    state = {term:'', teamConference: '', teamName: '', rank: null, teamRecord: '', teamLogo: ''};
+    state = {term:'', teamConference: '', teamName: '', rank: null, teamRecord: '', teamLogo: '', err: ''};
 
     nba = [
         {teamConference: 'Western', teamName: 'Lakers', teamRank: 1, teamRecord: '11-4', teamLogo: 'https://www.nba.com/.element/img/1.0/teamsites/logos/teamlogos_500x500/lal.png'},
@@ -36,25 +36,20 @@ class App extends React.Component{
 
         for(var i = 0; i < 16; i++) {
             if(this.nba[i].teamName === termCapitalized) {
-                this.setState(
-                    {
+                this.setState({
                         teamName: termCapitalized,
                         teamConference: this.nba[i].teamConference,
                         teamRank: this.nba[i].teamRank,
                         teamRecord: this.nba[i].teamRecord,
-                        teamLogo: this.nba[i].teamLogo
-                    }
-                );
-            }
-            // else(this.nba[i].teamName !== term) {
-            //     return(
-            //         console.log('there is no team with this name')
-            //     );
-            // }
+                        teamLogo: this.nba[i].teamLogo}
+                )
+                console.log('this is the selected team: ' + this.state.teamName);
+            } 
+           else if (this.nba[i].teamName !== termCapitalized) {
+                     console.log('there is no team with this name: ' + term);
+                     this.setState({err: 'true'});
+             }
         }
-
-        console.log('this is the selected team: ' + this.state.teamName);
-
     }
 
 
@@ -64,6 +59,7 @@ class App extends React.Component{
             <div className = "ui container" style = {{marginTop: '10px'}}>
                 <SearchBar onSubmit = {this.onSearchSubmit}/>
                 <TeamDisplay
+                    error = {this.state.err}
                     teamName = {this.state.teamName}
                     teamLogo = {this.state.teamLogo}
                     teamConference = {this.state.teamConference}
@@ -71,7 +67,6 @@ class App extends React.Component{
                     teamRecord = {this.state.teamRecord}
                 />
             </div>
-            
         </div>
         )
     }
